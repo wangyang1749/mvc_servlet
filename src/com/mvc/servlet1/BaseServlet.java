@@ -16,8 +16,37 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class BaseServlet extends HttpServlet {
 	@Override
+	@SuppressWarnings("rawtypes")
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html;charset=UTF-8");
+		try {
+			Method[] ms = this.getClass().getDeclaredMethods();
+			for (Method m : ms) {
+				String name = m.getName();
+				if(name.startsWith("set")) {
+					name = name.substring(3);
+					
+					Class c = Class.forName("com.mvc.servlet1."+name);
+					Object o= c.newInstance();
+					m.invoke(this, o);
+				}
+			}
+		} catch (SecurityException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 		String method =  req.getParameter("method");
 		try {
 			Method m =  this.getClass().getMethod(method, HttpServletRequest.class,HttpServletResponse.class);

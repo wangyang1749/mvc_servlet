@@ -22,9 +22,18 @@ public class UserServlet extends BaseServlet {
 //	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		super.service(req, resp);
 //	}
+	User user;
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public String list(HttpServletRequest req,HttpServletResponse resp) throws IOException {
-		
-		resp.getWriter().write("ÁÐ±íÒ³Ãæ");
+		user.setAge(10);
+		user.setUserName("Îò¿Õ");
+		req.setAttribute("user",user);
 		return "list.jsp";
 	}
 	public void load(HttpServletRequest req,HttpServletResponse resp) throws IOException {

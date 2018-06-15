@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h2>列表界面</h2>
+	${user }
 </body>
 </html>
